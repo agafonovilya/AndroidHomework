@@ -1,34 +1,44 @@
 package ru.geekbrains.androidhomework
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.View
-import kotlinx.android.synthetic.main.activity_main.*
+import android.util.Log
+import moxy.MvpAppCompatActivity
+import moxy.ktx.moxyPresenter
 import ru.geekbrains.androidhomework.presenter.MainPresenter
+import ru.geekbrains.androidhomework.view.BackButtonListener
 import ru.geekbrains.androidhomework.view.MainView
+import ru.terrakok.cicerone.android.support.SupportAppNavigator
+import kotlin.math.log
 
-class MainActivity : AppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), MainView {
 
-    private val presenter = MainPresenter(this)
+    val navigatorHolder = App.instance.navigatorHolder
+    val navigator = SupportAppNavigator(this, supportFragmentManager, R.id.container)
+
+    val presenter: MainPresenter by moxyPresenter { MainPresenter(App.instance.router) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        btn_counter1.setOnClickListener { presenter.btn1Click() }
-        btn_counter2.setOnClickListener { presenter.btn2Click() }
-        btn_counter3.setOnClickListener { presenter.btn3Click() }
     }
 
-    override fun setButton1Text(text: String) {
-        btn_counter1.text = text
+    override fun onResumeFragments() {
+        super.onResumeFragments()
+        navigatorHolder.setNavigator(navigator)
     }
 
-    override fun setButton2Text(text: String) {
-        btn_counter2.text = text
+    override fun onPause() {
+        super.onPause()
+        navigatorHolder.removeNavigator()
     }
 
-    override fun setButton3Text(text: String) {
-        btn_counter3.text = text
+    override fun onBackPressed() {
+        supportFragmentManager.fragments.forEach {
+            if(it is BackButtonListener && it.backPressed()){
+                return
+            }
+        }
+        presenter.backClicked()
     }
 }
+

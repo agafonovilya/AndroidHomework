@@ -1,23 +1,19 @@
 package ru.geekbrains.androidhomework.presenter
 
-import ru.geekbrains.androidhomework.model.CountersModel
+import android.util.Log
+import moxy.MvpPresenter
+import ru.geekbrains.androidhomework.Screens
 import ru.geekbrains.androidhomework.view.MainView
+import ru.terrakok.cicerone.Router
 
-class MainPresenter(private val view: MainView) {
-    private val model = CountersModel()
+class MainPresenter(val router: Router) : MvpPresenter<MainView>() {
 
-    fun btn1Click() {
-        val nextValue = model.next(0)
-        view.setButton1Text(nextValue.toString())
+    override fun onFirstViewAttach() {
+        super.onFirstViewAttach()
+        router.replaceScreen(Screens.UsersScreen())
     }
 
-    fun btn2Click() {
-        val nextValue = model.next(1)
-        view.setButton2Text(nextValue.toString())
-    }
-
-    fun btn3Click() {
-        val nextValue = model.next(2)
-        view.setButton3Text(nextValue.toString())
+    fun backClicked() {
+        router.exit()
     }
 }
