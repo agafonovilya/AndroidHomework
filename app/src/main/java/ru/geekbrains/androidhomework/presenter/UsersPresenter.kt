@@ -1,5 +1,8 @@
 package ru.geekbrains.androidhomework.presenter
 
+import android.util.Log
+import io.reactivex.rxjava3.core.Observer
+import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 import ru.geekbrains.androidhomework.Screens
 import ru.geekbrains.androidhomework.model.entity.GithubUser
@@ -36,15 +39,43 @@ class UsersPresenter(private val usersRepo: GithubUsersRepo, private val router:
         }
     }
 
-    fun loadData() {
+    /*fun loadData() {
         val users = usersRepo.getUsers()
         usersListPresenter.users.addAll(users)
         viewState.updateList()
+    }*/
+
+    private fun loadData() {
+        usersRepo.getUsers()
+            .subscribe(stringObserver)
+
+        viewState.updateList()
+    }
+
+    private val stringObserver = object : Observer<GithubUser> {
+        var disposable: Disposable? = null
+
+        override fun onComplete() {
+            Log.i(TAG, "onComplete: ")
+        }
+
+        override fun onSubscribe(d: Disposable?) {
+            disposable = d
+            Log.i(TAG, "onSubscribe: ")
+        }
+
+        override fun onNext(s: GithubUser?) {
+            s?.let { usersListPresenter.users.add(it) }
+            Log.i(TAG, "onNext: $s")
+        }
+
+        override fun onError(e: Throwable?) {
+            Log.e(TAG, "onError: ${e?.message}")
+        }
     }
 
     fun backPressed(): Boolean {
         router.exit()
         return true
     }
-
 }
