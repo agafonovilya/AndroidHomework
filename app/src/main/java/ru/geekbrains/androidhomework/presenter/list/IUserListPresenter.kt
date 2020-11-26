@@ -1,5 +1,5 @@
 package ru.geekbrains.androidhomework.presenter.list
 
-import ru.geekbrains.androidhomework.view.UserItemView
+import ru.geekbrains.androidhomework.view.IUserItemView
 
-interface IUserListPresenter : IListPresenter<UserItemView>
+interface IUserListPresenter : IListPresenter<IUserItemView>
