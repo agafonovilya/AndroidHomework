@@ -9,8 +9,12 @@ import ru.geekbrains.androidhomework.mvp.model.entity.cache.IRepositoriesCache
 import ru.geekbrains.androidhomework.mvp.model.entity.room.Database
 import ru.geekbrains.androidhomework.mvp.model.entity.room.RoomGithubRepository
 import ru.geekbrains.androidhomework.mvp.model.entity.room.RoomGithubUser
+import javax.inject.Inject
 
-class RoomRepositoriesCache(private val db: Database): IRepositoriesCache {
+class RoomRepositoriesCache: IRepositoriesCache {
+
+    @Inject lateinit var db: Database
+
     override fun getRepositories(user: GithubUser): Single<List<GithubRepository>> {
         return Single.fromCallable {
             val roomUser: RoomGithubUser = user.login?.let { db.userDao.findByLogin(it) }

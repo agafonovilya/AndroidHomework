@@ -7,8 +7,11 @@ import ru.geekbrains.androidhomework.mvp.model.entity.GithubUser
 import ru.geekbrains.androidhomework.mvp.model.entity.cache.IUserCache
 import ru.geekbrains.androidhomework.mvp.model.entity.room.Database
 import ru.geekbrains.androidhomework.mvp.model.entity.room.RoomGithubUser
+import javax.inject.Inject
 
-class RoomUserCache(private val db: Database): IUserCache {
+class RoomUserCache: IUserCache {
+
+    @Inject lateinit var db: Database
 
     override fun getUsers(): Single<List<GithubUser>> {
         return Single.fromCallable {

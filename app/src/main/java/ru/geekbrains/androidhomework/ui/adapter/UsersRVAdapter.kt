@@ -11,9 +11,12 @@ import ru.geekbrains.androidhomework.R
 import ru.geekbrains.androidhomework.mvp.presenter.list.IUserListPresenter
 import ru.geekbrains.androidhomework.mvp.view.list.IUserItemView
 import ru.geekbrains.androidhomework.mvp.view.image.IImageLoader
+import javax.inject.Inject
 
-class UsersRVAdapter(val presenter: IUserListPresenter, val imageLoader: IImageLoader<ImageView>) :
+class UsersRVAdapter(val presenter: IUserListPresenter) :
     RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
+
+    @Inject lateinit var imageLoader: IImageLoader<ImageView>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_user, parent, false))

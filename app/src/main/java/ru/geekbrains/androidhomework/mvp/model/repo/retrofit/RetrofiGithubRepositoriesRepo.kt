@@ -7,13 +7,17 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.geekbrains.androidhomework.mvp.model.api.IDataSource
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubRepository
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubUser
-import ru.geekbrains.androidhomework.mvp.model.entity.room.cache.RoomRepositoriesCache
+import ru.geekbrains.androidhomework.mvp.model.entity.cache.IRepositoriesCache
 import ru.geekbrains.androidhomework.mvp.model.repo.IGithubRepositoriesRepo
 import ru.geekbrains.androidhomework.ui.network.INetworkStatus
+import javax.inject.Inject
 
-class RetrofitGithubRepositoriesRepo(private val api: IDataSource,
-                                     private val networkStatus: INetworkStatus,
-                                     private val repositoriesCache: RoomRepositoriesCache) : IGithubRepositoriesRepo {
+class RetrofitGithubRepositoriesRepo: IGithubRepositoriesRepo {
+
+    @Inject lateinit var api: IDataSource
+    @Inject lateinit var networkStatus: INetworkStatus
+    @Inject lateinit var repositoriesCache: IRepositoriesCache
+
 
     override fun getRepos(user: GithubUser): Single<List<GithubRepository>> = networkStatus.isOnlineSingle().flatMap { isOnline ->
         if (isOnline) {
