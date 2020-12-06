@@ -10,29 +10,33 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.androidhomework.App
 import ru.geekbrains.androidhomework.R
+import ru.geekbrains.androidhomework.di.repository.UserRepositoriesSubcomponent
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubUser
-import ru.geekbrains.androidhomework.mvp.presenter.UserReposPresenter
+import ru.geekbrains.androidhomework.mvp.presenter.UserRepositoriesPresenter
 import ru.geekbrains.androidhomework.ui.IBackButtonListener
-import ru.geekbrains.androidhomework.ui.adapter.UserReposRVAdapter
+import ru.geekbrains.androidhomework.ui.adapter.UserRepositoriesRVAdapter
 import ru.geekbrains.androidhomework.mvp.view.IUserReposView
 
-class UserReposFragment: MvpAppCompatFragment(), IUserReposView, IBackButtonListener {
+class UserRepositoriesFragment: MvpAppCompatFragment(), IUserReposView, IBackButtonListener {
 
     companion object {
         private const val USER_ARG = "user"
 
-        fun newInstance(user: GithubUser) = UserReposFragment().apply {
+        fun newInstance(user: GithubUser) = UserRepositoriesFragment().apply {
             arguments = Bundle().apply {
                 putParcelable(USER_ARG, user)
             }
         }
     }
 
-    private var adapter: UserReposRVAdapter? = null
+    var repositorySubcomponent: UserRepositoriesSubcomponent? = null
 
-    val presenter: UserReposPresenter by moxyPresenter {
+    private var adapter: UserRepositoriesRVAdapter? = null
+
+    val presenter: UserRepositoriesPresenter by moxyPresenter {
+        repositorySubcomponent = App.instance.initUserRepositoriesSubcomponent()
         val user = arguments?.getParcelable<GithubUser>(USER_ARG) as GithubUser
-        UserReposPresenter(user).apply { App.instance.appComponent.inject(this) }
+        UserRepositoriesPresenter(user).apply { repositorySubcomponent?.inject(this) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
@@ -40,12 +44,17 @@ class UserReposFragment: MvpAppCompatFragment(), IUserReposView, IBackButtonList
 
     override fun init() {
         rv_repos.layoutManager = LinearLayoutManager(context)
-        adapter = UserReposRVAdapter(presenter.userReposListPresenter)
+        adapter = UserRepositoriesRVAdapter(presenter.userReposListPresenter)
         rv_repos.adapter = adapter
     }
 
     override fun updateList() {
         adapter?.notifyDataSetChanged()
+    }
+
+    override fun release() {
+        repositorySubcomponent = null
+        App.instance.releaseUserRepositoriesSubcomponent()
     }
 
     override fun backPressed() = presenter.backPressed()

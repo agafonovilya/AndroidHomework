@@ -5,6 +5,7 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkRequest
 import io.reactivex.rxjava3.subjects.BehaviorSubject
+import ru.geekbrains.androidhomework.mvp.model.network.INetworkStatus
 
 class AndroidNetworkStatus(context: Context) : INetworkStatus {
 

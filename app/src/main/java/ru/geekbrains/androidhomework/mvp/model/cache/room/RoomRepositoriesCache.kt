@@ -1,19 +1,16 @@
-package ru.geekbrains.androidhomework.mvp.model.entity.room.cache
+package ru.geekbrains.androidhomework.mvp.model.cache.room
 
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubRepository
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubUser
-import ru.geekbrains.androidhomework.mvp.model.entity.cache.IRepositoriesCache
+import ru.geekbrains.androidhomework.mvp.model.cache.IRepositoriesCache
 import ru.geekbrains.androidhomework.mvp.model.entity.room.Database
 import ru.geekbrains.androidhomework.mvp.model.entity.room.RoomGithubRepository
 import ru.geekbrains.androidhomework.mvp.model.entity.room.RoomGithubUser
-import javax.inject.Inject
 
-class RoomRepositoriesCache: IRepositoriesCache {
-
-    @Inject lateinit var db: Database
+class RoomRepositoriesCache(val db: Database): IRepositoriesCache {
 
     override fun getRepositories(user: GithubUser): Single<List<GithubRepository>> {
         return Single.fromCallable {

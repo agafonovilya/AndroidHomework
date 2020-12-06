@@ -1,8 +1,10 @@
-package ru.geekbrains.androidhomework
+package ru.geekbrains.androidhomework.ui.activity
 
 import android.os.Bundle
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
+import ru.geekbrains.androidhomework.App
+import ru.geekbrains.androidhomework.R
 import ru.geekbrains.androidhomework.mvp.presenter.MainPresenter
 import ru.geekbrains.androidhomework.ui.IBackButtonListener
 import ru.geekbrains.androidhomework.mvp.view.IMainView
