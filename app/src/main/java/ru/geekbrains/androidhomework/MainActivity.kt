@@ -1,19 +1,17 @@
 package ru.geekbrains.androidhomework
 
 import android.os.Bundle
-import android.util.Log
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.androidhomework.presenter.MainPresenter
-import ru.geekbrains.androidhomework.view.BackButtonListener
-import ru.geekbrains.androidhomework.view.MainView
+import ru.geekbrains.androidhomework.view.IBackButtonListener
+import ru.geekbrains.androidhomework.view.IMainView
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
-import kotlin.math.log
 
-class MainActivity : MvpAppCompatActivity(), MainView {
+class MainActivity : MvpAppCompatActivity(), IMainView {
 
-    val navigatorHolder = App.instance.navigatorHolder
-    val navigator = SupportAppNavigator(this, supportFragmentManager, R.id.container)
+    private val navigatorHolder = App.instance.navigatorHolder
+    private val navigator = SupportAppNavigator(this, supportFragmentManager, R.id.container)
 
     val presenter: MainPresenter by moxyPresenter { MainPresenter(App.instance.router) }
 
@@ -34,7 +32,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     override fun onBackPressed() {
         supportFragmentManager.fragments.forEach {
-            if(it is BackButtonListener && it.backPressed()){
+            if(it is IBackButtonListener && it.backPressed()){
                 return
             }
         }

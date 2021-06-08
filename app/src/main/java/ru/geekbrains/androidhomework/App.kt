@@ -2,6 +2,7 @@ package ru.geekbrains.androidhomework
 
 import android.app.Application
 import ru.terrakok.cicerone.Cicerone
+import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
 
 class App : Application() {
@@ -19,10 +20,10 @@ class App : Application() {
         instance = this
     }
 
-    val navigatorHolder
+    val navigatorHolder: NavigatorHolder
         get() = cicerone.navigatorHolder
 
-    val router
+    val router: Router
         get() = cicerone.router
 
 }

@@ -1,5 +1,5 @@
 package ru.geekbrains.androidhomework.view
 
-interface BackButtonListener {
+interface IBackButtonListener {
     fun backPressed(): Boolean
 }
