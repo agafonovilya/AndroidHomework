@@ -2,6 +2,7 @@ package ru.geekbrains.androidhomework.mvp.presenter
 
 import io.reactivex.rxjava3.core.Scheduler
 import moxy.MvpPresenter
+import moxy.MvpView
 import ru.geekbrains.androidhomework.navigation.Screens
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubUser
 import ru.geekbrains.androidhomework.mvp.model.repo.IGithubUsersRepo
@@ -13,14 +14,19 @@ import javax.inject.Inject
 
 const val TAG = "Github Client"
 
-class UsersPresenter: MvpPresenter<IUsersView>() {
+class UsersPresenter(): MvpPresenter<IUsersView>() {
 
-     @Inject lateinit var usersRepo: IGithubUsersRepo
-     @Inject lateinit var router: Router
-     @Inject lateinit var mainThreadScheduler: Scheduler
+    @Inject lateinit var usersRepo: IGithubUsersRepo
+    @Inject lateinit var router: Router
+    @Inject lateinit var mainThreadScheduler: Scheduler
 
+    constructor(_userRepo:IGithubUsersRepo, _router: Router, _mainThreadScheduler: Scheduler) : this() {
+        usersRepo = _userRepo
+        router = _router
+        mainThreadScheduler = _mainThreadScheduler
+    }
 
-     class UsersListPresenter : IUserListPresenter {
+    class UsersListPresenter : IUserListPresenter {
          val users = mutableListOf<GithubUser>()
          override var itemClickListener: ((IUserItemView) -> Unit)? = null
          override fun getCount() = users.size
@@ -45,7 +51,7 @@ class UsersPresenter: MvpPresenter<IUsersView>() {
          }
      }
 
-     private fun loadData() {
+     fun loadData() {
          usersRepo.getUsers()
              .observeOn(mainThreadScheduler)
              .subscribe({
