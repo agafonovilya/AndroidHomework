@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import ru.geekbrains.androidhomework.model.api.IDataSource
+import ru.geekbrains.androidhomework.mvp.model.api.IDataSource
 
 object ApiHolder {
 

@@ -3,9 +3,9 @@ package ru.geekbrains.androidhomework
 import android.os.Bundle
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
-import ru.geekbrains.androidhomework.presenter.MainPresenter
-import ru.geekbrains.androidhomework.view.IBackButtonListener
-import ru.geekbrains.androidhomework.view.IMainView
+import ru.geekbrains.androidhomework.mvp.presenter.MainPresenter
+import ru.geekbrains.androidhomework.ui.IBackButtonListener
+import ru.geekbrains.androidhomework.mvp.view.IMainView
 import ru.terrakok.cicerone.android.support.SupportAppNavigator
 
 class MainActivity : MvpAppCompatActivity(), IMainView {

@@ -1,6 +1,7 @@
 package ru.geekbrains.androidhomework
 
 import android.app.Application
+import ru.geekbrains.androidhomework.mvp.model.entity.room.Database
 import ru.terrakok.cicerone.Cicerone
 import ru.terrakok.cicerone.NavigatorHolder
 import ru.terrakok.cicerone.Router
@@ -17,6 +18,7 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        Database.create(this)
         instance = this
     }
 
