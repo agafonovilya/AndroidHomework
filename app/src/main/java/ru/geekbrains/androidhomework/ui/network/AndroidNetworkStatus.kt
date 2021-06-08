@@ -7,6 +7,7 @@ import android.net.NetworkRequest
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 
 class AndroidNetworkStatus(context: Context) : INetworkStatus {
+
     private val statusSubject: BehaviorSubject<Boolean> = BehaviorSubject.create()
 
     init {

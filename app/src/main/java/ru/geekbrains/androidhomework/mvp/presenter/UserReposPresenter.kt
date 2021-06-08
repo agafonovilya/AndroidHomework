@@ -7,17 +7,18 @@ import ru.geekbrains.androidhomework.mvp.model.entity.GithubRepository
 
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubUser
 import ru.geekbrains.androidhomework.mvp.model.repo.IGithubRepositoriesRepo
-import ru.geekbrains.androidhomework.mvp.model.repo.IGithubUsersRepo
 import ru.geekbrains.androidhomework.mvp.presenter.list.IUserReposListPresenter
 import ru.geekbrains.androidhomework.mvp.view.list.IUserReposItemView
 import ru.geekbrains.androidhomework.mvp.view.IUserReposView
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
 
-class UserReposPresenter(private val mainThreadScheduler: Scheduler,
-                         private val user : GithubUser,
-                         private val usersRepo: IGithubRepositoriesRepo,
-                         private val router : Router) : MvpPresenter<IUserReposView>() {
+class UserReposPresenter(private val user : GithubUser) : MvpPresenter<IUserReposView>() {
+
+    @Inject lateinit var router: Router
+    @Inject lateinit var mainThreadScheduler: Scheduler
+    @Inject lateinit var usersRepo: IGithubRepositoriesRepo
 
     class UserReposListPresenter : IUserReposListPresenter {
         val repos = mutableListOf<GithubRepository>()

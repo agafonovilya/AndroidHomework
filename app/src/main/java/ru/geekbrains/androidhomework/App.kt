@@ -1,31 +1,22 @@
 package ru.geekbrains.androidhomework
 
 import android.app.Application
-import ru.geekbrains.androidhomework.mvp.model.entity.room.Database
-import ru.terrakok.cicerone.Cicerone
-import ru.terrakok.cicerone.NavigatorHolder
-import ru.terrakok.cicerone.Router
+import ru.geekbrains.androidhomework.di.AppComponent
+import ru.geekbrains.androidhomework.di.DaggerAppComponent
+import ru.geekbrains.androidhomework.di.module.AppModule
+
 
 class App : Application() {
     companion object {
         lateinit var instance: App
     }
 
-    //Временно до даггера положим это тут
-    private val cicerone: Cicerone<Router> by lazy {
-        Cicerone.create()
-    }
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
-        Database.create(this)
         instance = this
+        appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
     }
-
-    val navigatorHolder: NavigatorHolder
-        get() = cicerone.navigatorHolder
-
-    val router: Router
-        get() = cicerone.router
 
 }

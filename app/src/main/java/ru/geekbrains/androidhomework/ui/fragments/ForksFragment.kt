@@ -15,15 +15,21 @@ import ru.geekbrains.androidhomework.ui.IBackButtonListener
 import ru.geekbrains.androidhomework.mvp.view.IForksView
 
 class ForksFragment: MvpAppCompatFragment(), IForksView, IBackButtonListener {
+
     companion object {
-        lateinit var repo: GithubRepository
-        fun newInstance(repo: GithubRepository): ForksFragment {
-            Companion.repo = repo
-            return ForksFragment()
+       private const val REPOSITORY_ARG = "repository"
+
+        fun newInstance(repository: GithubRepository) = ForksFragment().apply {
+            arguments = Bundle().apply {
+                putParcelable(REPOSITORY_ARG, repository)
+            }
         }
     }
 
-    val presenter: ForksPresenter by moxyPresenter{ForksPresenter(repo, App.instance.router)}
+   val presenter: ForksPresenter by moxyPresenter {
+       val repository = arguments?.getParcelable<GithubRepository>(REPOSITORY_ARG) as GithubRepository
+       ForksPresenter(repository).apply { App.instance.appComponent.inject(this) }
+   }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
         View.inflate(context, R.layout.fragment_forks, null)

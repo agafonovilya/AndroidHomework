@@ -10,7 +10,8 @@ import ru.geekbrains.androidhomework.R
 import ru.geekbrains.androidhomework.mvp.presenter.list.IUserReposListPresenter
 import ru.geekbrains.androidhomework.mvp.view.list.IUserReposItemView
 
-class UserReposRVAdapter(val presenter: IUserReposListPresenter) : RecyclerView.Adapter<UserReposRVAdapter.ViewHolder>() {
+class UserReposRVAdapter(val presenter: IUserReposListPresenter) :
+    RecyclerView.Adapter<UserReposRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(LayoutInflater.from(parent.context)

@@ -4,8 +4,11 @@ import moxy.MvpPresenter
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubRepository
 import ru.geekbrains.androidhomework.mvp.view.IForksView
 import ru.terrakok.cicerone.Router
+import javax.inject.Inject
 
-class ForksPresenter(private val repo: GithubRepository, private val router: Router): MvpPresenter<IForksView>() {
+class ForksPresenter(private val repo: GithubRepository): MvpPresenter<IForksView>() {
+
+    @Inject lateinit var router: Router
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
