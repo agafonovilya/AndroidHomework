@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import ru.geekbrains.androidhomework.App
 import ru.geekbrains.androidhomework.mvp.model.api.IDataSource
 import ru.geekbrains.androidhomework.ui.network.AndroidNetworkStatus
-import ru.geekbrains.androidhomework.ui.network.INetworkStatus
+import ru.geekbrains.androidhomework.mvp.model.network.INetworkStatus
 import javax.inject.Named
 import javax.inject.Singleton
 

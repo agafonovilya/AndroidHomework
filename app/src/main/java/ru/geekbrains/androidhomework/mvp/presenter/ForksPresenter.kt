@@ -19,4 +19,9 @@ class ForksPresenter(private val repo: GithubRepository): MvpPresenter<IForksVie
         router.exit()
         return true
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        println("onDestroy presenter")
+    }
 }

@@ -7,32 +7,31 @@ import ru.geekbrains.androidhomework.mvp.model.entity.GithubRepository
 
 import ru.geekbrains.androidhomework.mvp.model.entity.GithubUser
 import ru.geekbrains.androidhomework.mvp.model.repo.IGithubRepositoriesRepo
-import ru.geekbrains.androidhomework.mvp.presenter.list.IUserReposListPresenter
-import ru.geekbrains.androidhomework.mvp.view.list.IUserReposItemView
+import ru.geekbrains.androidhomework.mvp.presenter.list.IUserRepositoriesListPresenter
+import ru.geekbrains.androidhomework.mvp.view.list.IUserRepositoryItemView
 import ru.geekbrains.androidhomework.mvp.view.IUserReposView
 import ru.terrakok.cicerone.Router
 import javax.inject.Inject
 
 
-class UserReposPresenter(private val user : GithubUser) : MvpPresenter<IUserReposView>() {
+class UserRepositoriesPresenter(private val user : GithubUser) : MvpPresenter<IUserReposView>() {
 
     @Inject lateinit var router: Router
     @Inject lateinit var mainThreadScheduler: Scheduler
     @Inject lateinit var usersRepo: IGithubRepositoriesRepo
 
-    class UserReposListPresenter : IUserReposListPresenter {
+    class UserRepositoriesListPresenter : IUserRepositoriesListPresenter {
         val repos = mutableListOf<GithubRepository>()
-        override var itemClickListener: ((IUserReposItemView) -> Unit)? = null
-
+        override var itemClickListener: ((IUserRepositoryItemView) -> Unit)? = null
         override fun getCount() = repos.size
 
-        override fun bindView(view: IUserReposItemView) {
+        override fun bindView(view: IUserRepositoryItemView) {
             val repo = repos[view.pos]
             repo.name?.let{ view.setRepoName(it)}
         }
     }
 
-    val userReposListPresenter = UserReposListPresenter()
+    val userReposListPresenter = UserRepositoriesListPresenter()
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -46,7 +45,6 @@ class UserReposPresenter(private val user : GithubUser) : MvpPresenter<IUserRepo
     }
 
     private fun loadRepos() {
-
             usersRepo.getRepos(user)
                 .observeOn(mainThreadScheduler)
                 .subscribe({ repos ->
@@ -61,5 +59,10 @@ class UserReposPresenter(private val user : GithubUser) : MvpPresenter<IUserRepo
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewState.release()
     }
 }

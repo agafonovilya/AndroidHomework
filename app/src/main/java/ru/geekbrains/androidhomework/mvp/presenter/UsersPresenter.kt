@@ -23,7 +23,6 @@ class UsersPresenter: MvpPresenter<IUsersView>() {
      class UsersListPresenter : IUserListPresenter {
          val users = mutableListOf<GithubUser>()
          override var itemClickListener: ((IUserItemView) -> Unit)? = null
-
          override fun getCount() = users.size
 
          override fun bindView(view: IUserItemView) {
@@ -62,4 +61,9 @@ class UsersPresenter: MvpPresenter<IUsersView>() {
          router.exit()
          return true
      }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewState.release()
+    }
  }

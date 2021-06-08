@@ -1,4 +1,4 @@
-package ru.geekbrains.androidhomework.ui.network
+package ru.geekbrains.androidhomework.mvp.model.network
 
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single

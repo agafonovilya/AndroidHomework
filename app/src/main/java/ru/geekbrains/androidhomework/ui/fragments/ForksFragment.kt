@@ -28,7 +28,7 @@ class ForksFragment: MvpAppCompatFragment(), IForksView, IBackButtonListener {
 
    val presenter: ForksPresenter by moxyPresenter {
        val repository = arguments?.getParcelable<GithubRepository>(REPOSITORY_ARG) as GithubRepository
-       ForksPresenter(repository).apply { App.instance.appComponent.inject(this) }
+       ForksPresenter(repository).apply { App.instance.userRepositoriesSubcomponent?.inject(this) }
    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
@@ -40,4 +40,10 @@ class ForksFragment: MvpAppCompatFragment(), IForksView, IBackButtonListener {
     override fun setForksQuantity(quantity: String) {
         tv_fork_quantity.text = quantity
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        System.out.println("onDestroy")
+    }
+
 }

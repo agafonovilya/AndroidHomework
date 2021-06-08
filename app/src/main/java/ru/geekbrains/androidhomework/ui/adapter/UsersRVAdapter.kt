@@ -8,9 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_user.view.*
 import ru.geekbrains.androidhomework.R
+import ru.geekbrains.androidhomework.mvp.model.image.IImageLoader
 import ru.geekbrains.androidhomework.mvp.presenter.list.IUserListPresenter
 import ru.geekbrains.androidhomework.mvp.view.list.IUserItemView
-import ru.geekbrains.androidhomework.mvp.view.image.IImageLoader
 import javax.inject.Inject
 
 class UsersRVAdapter(val presenter: IUserListPresenter) :
@@ -43,5 +43,6 @@ class UsersRVAdapter(val presenter: IUserListPresenter) :
             imageLoader.loadInto(url, iv_avatar)
         }
 
+        fun removeAvatar() = with(containerView) { iv_avatar.setImageDrawable(null) }
     }
 }

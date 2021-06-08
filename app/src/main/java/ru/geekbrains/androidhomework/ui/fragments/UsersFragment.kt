@@ -10,6 +10,7 @@ import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 import ru.geekbrains.androidhomework.App
 import ru.geekbrains.androidhomework.R
+import ru.geekbrains.androidhomework.di.user.UsersSubcomponent
 import ru.geekbrains.androidhomework.mvp.presenter.UsersPresenter
 import ru.geekbrains.androidhomework.ui.IBackButtonListener
 import ru.geekbrains.androidhomework.ui.adapter.UsersRVAdapter
@@ -21,9 +22,12 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
         fun newInstance() = UsersFragment()
     }
 
+    var userSubcomponent: UsersSubcomponent? = null
+
     val presenter: UsersPresenter by moxyPresenter {
+        userSubcomponent = App.instance.initUsersSubcomponent()
         UsersPresenter().apply {
-            App.instance.appComponent.inject(this)
+            userSubcomponent?.inject(this)
         }
     }
 
@@ -34,7 +38,9 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
 
     override fun init() {
          rv_users.layoutManager = LinearLayoutManager(context)
-         adapter = UsersRVAdapter(presenter.usersListPresenter).apply { App.instance.appComponent.inject(this) }
+         adapter = UsersRVAdapter(presenter.usersListPresenter).apply {
+             userSubcomponent?.inject(this)
+             }
          rv_users.adapter = adapter
     }
 
@@ -43,5 +49,10 @@ class UsersFragment : MvpAppCompatFragment(), IUsersView, IBackButtonListener {
     }
 
     override fun backPressed() = presenter.backPressed()
+
+    override fun release() {
+        userSubcomponent = null
+        App.instance.releaseUsersSubcomponent()
+    }
 
 }

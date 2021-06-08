@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_repo.view.*
 import ru.geekbrains.androidhomework.R
-import ru.geekbrains.androidhomework.mvp.presenter.list.IUserReposListPresenter
-import ru.geekbrains.androidhomework.mvp.view.list.IUserReposItemView
+import ru.geekbrains.androidhomework.mvp.presenter.list.IUserRepositoriesListPresenter
+import ru.geekbrains.androidhomework.mvp.view.list.IUserRepositoryItemView
 
-class UserReposRVAdapter(val presenter: IUserReposListPresenter) :
-    RecyclerView.Adapter<UserReposRVAdapter.ViewHolder>() {
+class UserRepositoriesRVAdapter(val presenter: IUserRepositoriesListPresenter) :
+    RecyclerView.Adapter<UserRepositoriesRVAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(LayoutInflater.from(parent.context)
@@ -28,7 +28,7 @@ class UserReposRVAdapter(val presenter: IUserReposListPresenter) :
     override fun getItemCount() = presenter.getCount()
 
     inner class ViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
-        LayoutContainer, IUserReposItemView {
+        LayoutContainer, IUserRepositoryItemView {
 
         override var pos = -1
 
